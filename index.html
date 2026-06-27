@@ -7,6 +7,7 @@
   <link rel="icon" href="images/Pompompurin.ico" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="image" href="images/pompompurin-birthday.png" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <style>
     /* =========================
@@ -231,6 +232,7 @@
       z-index: 0;
       pointer-events: none;
       overflow: hidden;
+      contain: paint;
     }
 
     .hero-blob {
@@ -243,6 +245,7 @@
       box-shadow: 0 18px 38px rgba(128, 82, 36, 0.08);
       opacity: 0.78;
       animation: slowFloat 9s ease-in-out infinite;
+      will-change: translate;
     }
 
     .hero-blob.one {
@@ -550,6 +553,7 @@
       border-radius: 30px;
       filter: drop-shadow(0 20px 24px rgba(128, 82, 36, 0.16));
       animation: gentleBounce 4.8s ease-in-out infinite;
+      will-change: transform;
     }
 
     .hero-art .paw {
@@ -602,6 +606,7 @@
       z-index: 0;
       pointer-events: none;
       overflow: hidden;
+      contain: paint;
     }
 
     .section-blob {
@@ -614,6 +619,7 @@
       box-shadow: 0 18px 42px rgba(128, 82, 36, 0.07);
       opacity: 0.74;
       animation: slowFloat 10s ease-in-out infinite;
+      will-change: translate;
     }
 
     .section-blob.one {
@@ -681,11 +687,13 @@
       opacity: 0;
       transform: translateY(22px);
       transition: opacity 700ms ease, transform 700ms ease;
+      will-change: opacity, transform;
     }
 
     .reveal.is-visible {
       opacity: 1;
       transform: translateY(0);
+      will-change: auto;
     }
 
     .section-heading {
@@ -1261,7 +1269,7 @@
           <div class="cloud two" aria-hidden="true"></div>
           <div class="pompom-image-card">
             <div class="paw" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-            <img class="pompom-image" src="images/pompompurin-birthday.png" alt="Pompompurin con pastel de cumpleaños" />
+            <img class="pompom-image" src="images/pompompurin-birthday.png" alt="Pompompurin con pastel de cumpleaños" width="2000" height="2000" decoding="async" fetchpriority="high" />
           </div>
         </section>
       </div>
@@ -1295,7 +1303,7 @@
 
           <article class="gift-card reveal" style="--delay: 0ms;">
             <div class="gift-image-wrap">
-              <img src="images/Camara.jpg" alt="Cámara para guardar recuerdos" data-fallback="Cámara" data-tone="#cdebd7" />
+              <img src="images/Camara.jpg" alt="Cámara para guardar recuerdos" width="3472" height="3472" loading="lazy" decoding="async" data-fallback="Cámara" data-tone="#cdebd7" />
               <span class="gift-number">01</span>
             </div>
             <div class="gift-content">
@@ -1310,7 +1318,7 @@
 
           <article class="gift-card reveal" style="--delay: 180ms;">
             <div class="gift-image-wrap">
-              <img src="images/flores.jpg" alt="Ramo de flores" data-fallback="Flores" data-tone="#ffd4bd" />
+              <img src="images/flores.jpg" alt="Ramo de flores" loading="lazy" decoding="async" data-fallback="Flores" data-tone="#ffd4bd" />
               <span class="gift-number">02</span>
             </div>
             <div class="gift-content">
@@ -1324,7 +1332,7 @@
 
           <article class="gift-card reveal" style="--delay: 270ms;">
             <div class="gift-image-wrap">
-              <img src="images/Bolso.jpg" alt="Bolso" data-fallback="Playa" data-tone="#bfe5f4" />
+              <img src="images/Bolso.jpg" alt="Bolso" width="3472" height="3472" loading="lazy" decoding="async" data-fallback="Playa" data-tone="#bfe5f4" />
               <span class="gift-number">03</span>
             </div>
             <div class="gift-content">
@@ -1338,7 +1346,7 @@
 
           <article class="gift-card reveal" style="--delay: 360ms;">
             <div class="gift-image-wrap">
-              <img src="images/PompGigante.jpg" alt="Pompompurin gigante" data-fallback="Pompompurin" data-tone="#fff0bd" />
+              <img src="images/PompGigante.jpg" alt="Pompompurin gigante" width="3472" height="4624" loading="lazy" decoding="async" data-fallback="Pompompurin" data-tone="#fff0bd" />
               <span class="gift-number">04</span>
             </div>
             <div class="gift-content">
@@ -1349,7 +1357,7 @@
 
           <article class="gift-card reveal" style="--delay: 450ms;">
             <div class="gift-image-wrap">
-              <img src="images/Pompomcitos.jpg" alt="Figuritas de Pompompurin" data-fallback="Pompompurin" data-tone="#f7a8a8" />
+              <img src="images/Pompomcitos.jpg" alt="Figuritas de Pompompurin" width="3472" height="3472" loading="lazy" decoding="async" data-fallback="Pompompurin" data-tone="#f7a8a8" />
               <span class="gift-number">05</span>
             </div>
             <div class="gift-content">
@@ -1391,6 +1399,10 @@
     let confettiAnimation;
 
     function resizeConfettiCanvas() {
+      if (!confettiCanvas.isConnected) {
+        return;
+      }
+
       const pixelRatio = window.devicePixelRatio || 1;
       confettiCanvas.width = window.innerWidth * pixelRatio;
       confettiCanvas.height = window.innerHeight * pixelRatio;
@@ -1423,6 +1435,13 @@
       context.fill();
     }
 
+    function cleanupConfetti() {
+      cancelAnimationFrame(confettiAnimation);
+      window.removeEventListener("resize", resizeConfettiCanvas);
+      confettiContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      confettiCanvas.remove();
+    }
+
     function drawConfettiFrame(now) {
       const elapsed = now - confettiStart;
       const fade = Math.max(0, 1 - (elapsed - confettiDuration + 900) / 900);
@@ -1452,17 +1471,17 @@
       if (elapsed < confettiDuration) {
         confettiAnimation = requestAnimationFrame(drawConfettiFrame);
       } else {
-        confettiContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
-        confettiCanvas.remove();
+        cleanupConfetti();
       }
     }
 
     function startConfetti() {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        confettiCanvas.remove();
+        cleanupConfetti();
         return;
       }
 
+      window.addEventListener("resize", resizeConfettiCanvas);
       resizeConfettiCanvas();
       confettiStart = performance.now();
       const pieceCount = Math.min(135, Math.max(75, Math.floor(window.innerWidth / 9)));
@@ -1473,8 +1492,7 @@
       confettiAnimation = requestAnimationFrame(drawConfettiFrame);
     }
 
-    window.addEventListener("resize", resizeConfettiCanvas);
-    window.addEventListener("load", startConfetti);
+    window.addEventListener("load", startConfetti, { once: true });
 
     /* =========================
        Aparición suave al hacer scroll
