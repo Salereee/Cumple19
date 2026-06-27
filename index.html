@@ -44,9 +44,9 @@
       color: var(--cocoa);
       font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 12% 10%, rgba(255, 228, 154, 0.7) 0 110px, transparent 112px),
-        radial-gradient(circle at 86% 14%, rgba(255, 212, 189, 0.52) 0 105px, transparent 108px),
-        linear-gradient(135deg, #fffaf0 0%, #fff4d5 48%, #fffdf7 100%);
+        radial-gradient(circle at 12% 10%, rgba(255, 228, 154, 0.5) 0 120px, transparent 122px),
+        radial-gradient(circle at 88% 16%, rgba(255, 212, 189, 0.38) 0 110px, transparent 112px),
+        linear-gradient(135deg, #fffaf0 0%, #fff6dc 46%, #fffdf7 100%);
       overflow-x: hidden;
     }
 
@@ -55,13 +55,22 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      opacity: 0.52;
+      opacity: 0.36;
       background-image:
-        radial-gradient(circle, rgba(184, 137, 84, 0.18) 1.4px, transparent 1.8px),
-        radial-gradient(circle, rgba(247, 168, 168, 0.2) 1.2px, transparent 1.7px);
-      background-size: 34px 34px, 58px 58px;
+        radial-gradient(circle, rgba(184, 137, 84, 0.16) 1.2px, transparent 1.7px),
+        radial-gradient(circle, rgba(247, 168, 168, 0.16) 1px, transparent 1.5px);
+      background-size: 42px 42px, 70px 70px;
       background-position: 0 0, 14px 18px;
       mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent 88%);
+    }
+
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
     }
 
     img {
@@ -92,6 +101,24 @@
       font-size: 0.92rem;
       font-weight: 800;
       letter-spacing: 0;
+    }
+
+    .sweet-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: min(420px, 100%);
+      margin: 24px 0 2px;
+      color: var(--caramel);
+      font-weight: 900;
+    }
+
+    .sweet-divider::before,
+    .sweet-divider::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: linear-gradient(90deg, transparent, rgba(184, 137, 84, 0.36), transparent);
     }
 
     /* =========================
@@ -136,46 +163,81 @@
     ========================== */
     .hero {
       position: relative;
-      min-height: 92vh;
+      min-height: 88vh;
       display: grid;
       align-items: center;
-      padding: 52px 0 34px;
+      padding: 56px 0 48px;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      border-radius: 999px;
+      opacity: 0.7;
+      filter: blur(0.2px);
+    }
+
+    .hero::before {
+      width: 110px;
+      height: 110px;
+      left: 7vw;
+      bottom: 12vh;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255, 253, 247, 0.95) 0 9px, transparent 10px),
+        radial-gradient(circle at 20% 35%, rgba(184, 137, 84, 0.2) 0 3px, transparent 4px),
+        rgba(255, 228, 154, 0.36);
+      box-shadow: 0 18px 35px rgba(128, 82, 36, 0.08);
+    }
+
+    .hero::after {
+      width: 88px;
+      height: 88px;
+      right: 8vw;
+      top: 13vh;
+      border: 1px solid rgba(184, 137, 84, 0.16);
+      background: rgba(255, 253, 247, 0.48);
+      box-shadow: inset 0 0 0 14px rgba(255, 228, 154, 0.28);
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(310px, 0.95fr);
-      gap: 42px;
+      grid-template-columns: minmax(0, 0.92fr) minmax(330px, 0.86fr);
+      gap: clamp(58px, 7vw, 94px);
       align-items: center;
     }
 
     .hero-copy {
+      max-width: 610px;
+      min-width: 0;
       animation: pageEnter 850ms ease both;
     }
 
     h1 {
-      margin: 20px 0 16px;
+      margin: 0 0 18px;
       color: var(--cocoa);
       font-family: "Playfair Display", Georgia, serif;
-      font-size: clamp(3rem, 8vw, 6.8rem);
-      line-height: 0.95;
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      line-height: 0.92;
       letter-spacing: 0;
+      text-wrap: balance;
     }
 
     .hero-copy p {
-      width: min(620px, 100%);
+      width: min(520px, 100%);
       margin: 0;
       color: #765744;
-      font-size: clamp(1.06rem, 2vw, 1.25rem);
-      line-height: 1.8;
-      font-weight: 600;
+      font-size: clamp(1.12rem, 1.8vw, 1.32rem);
+      line-height: 1.82;
+      font-weight: 700;
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 14px;
-      margin-top: 30px;
+      margin-top: 28px;
     }
 
     .btn {
@@ -201,24 +263,11 @@
       box-shadow: 0 18px 32px rgba(128, 82, 36, 0.25);
     }
 
-    .soft-note {
-      display: inline-flex;
-      align-items: center;
-      min-height: 48px;
-      padding: 12px 18px;
-      border: 1px solid rgba(184, 137, 84, 0.24);
-      border-radius: 999px;
-      color: var(--coffee);
-      background: rgba(255, 253, 247, 0.62);
-      font-weight: 800;
-      box-shadow: 0 12px 25px rgba(128, 82, 36, 0.08);
-    }
-
     .hero-art {
       position: relative;
       display: grid;
       place-items: center;
-      min-height: 440px;
+      min-height: 420px;
       animation: pageEnter 900ms ease both 100ms;
     }
 
@@ -247,16 +296,16 @@
 
     .pompom-image-card {
       position: relative;
-      width: min(420px, 92vw);
+      width: min(390px, 92vw);
       aspect-ratio: 1;
       display: grid;
       place-items: center;
       border: 1px solid rgba(184, 137, 84, 0.22);
-      border-radius: 42px;
-      background: rgba(255, 253, 247, 0.78);
+      border-radius: 34px;
+      background: rgba(255, 253, 247, 0.86);
       box-shadow: var(--shadow);
       overflow: hidden;
-      transform: rotate(1.5deg);
+      transform: rotate(0.8deg);
     }
 
     .pompom-image-card::before,
@@ -285,10 +334,10 @@
     .pompom-image {
       position: relative;
       z-index: 1;
-      width: 92%;
-      height: 92%;
+      width: 94%;
+      height: 94%;
       object-fit: cover;
-      border-radius: 30px;
+      border-radius: 28px;
       filter: drop-shadow(0 20px 24px rgba(128, 82, 36, 0.16));
       animation: gentleBounce 4.8s ease-in-out infinite;
     }
@@ -302,7 +351,19 @@
        Sección de sorpresas
     ========================== */
     .section {
-      padding: 76px 0;
+      position: relative;
+      padding: 70px 0;
+    }
+
+    .section::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 16px;
+      width: min(940px, calc(100% - 36px));
+      height: 1px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, transparent, rgba(184, 137, 84, 0.26), transparent);
     }
 
     .reveal {
@@ -319,8 +380,9 @@
     .section-heading {
       display: grid;
       justify-items: center;
-      gap: 14px;
-      margin-bottom: 34px;
+      gap: 16px;
+      margin: 0 auto 36px;
+      width: min(780px, 100%);
       text-align: center;
     }
 
@@ -328,33 +390,37 @@
       margin: 0;
       color: var(--cocoa);
       font-family: "Playfair Display", Georgia, serif;
-      font-size: clamp(2.2rem, 5vw, 4.1rem);
-      line-height: 1;
+      font-size: clamp(2.25rem, 4.8vw, 3.75rem);
+      line-height: 1.06;
       letter-spacing: 0;
+      text-wrap: balance;
     }
 
     .section-heading p {
-      width: min(710px, 100%);
+      width: min(620px, 100%);
       margin: 0;
       color: #765744;
-      font-size: 1.06rem;
-      line-height: 1.8;
-      font-weight: 600;
+      font-size: clamp(1.02rem, 1.6vw, 1.18rem);
+      line-height: 1.9;
+      font-weight: 700;
     }
 
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 22px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      width: min(980px, 100%);
+      margin: 0 auto;
     }
 
     .gift-card {
       position: relative;
       min-height: 100%;
-      padding: 14px;
+      padding: 16px;
       border: 1px solid rgba(184, 137, 84, 0.18);
       border-radius: var(--radius-lg);
-      background: rgba(255, 253, 247, 0.74);
+      background:
+        linear-gradient(180deg, rgba(255, 253, 247, 0.86), rgba(255, 248, 233, 0.72));
       box-shadow: var(--soft-shadow);
       overflow: hidden;
       transform: translateY(24px);
@@ -380,19 +446,25 @@
     .gift-card::before {
       content: "";
       position: absolute;
-      width: 120px;
-      height: 120px;
-      right: -54px;
-      top: -54px;
+      width: 108px;
+      height: 108px;
+      right: -50px;
+      top: -50px;
       border-radius: 50%;
-      background: rgba(255, 228, 154, 0.52);
+      background: rgba(255, 228, 154, 0.38);
+    }
+
+    .gift-card:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      width: min(480px, 100%);
+      justify-self: center;
     }
 
     .gift-image-wrap {
       position: relative;
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 16 / 10;
       overflow: hidden;
-      border-radius: 22px;
+      border-radius: 20px;
       background: var(--vanilla);
     }
 
@@ -427,39 +499,40 @@
     .gift-content {
       position: relative;
       z-index: 1;
-      padding: 20px 8px 10px;
+      padding: 22px 10px 12px;
     }
 
     .gift-content h3 {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 9px;
-      margin: 0 0 10px;
+      margin: 0 0 12px;
       color: var(--cocoa);
       font-family: "Playfair Display", Georgia, serif;
-      font-size: 1.45rem;
-      line-height: 1.16;
+      font-size: clamp(1.42rem, 2vw, 1.72rem);
+      line-height: 1.14;
       letter-spacing: 0;
+      text-wrap: balance;
     }
 
     .gift-content p {
       margin: 0;
       color: #765744;
-      font-size: 1rem;
-      line-height: 1.65;
-      font-weight: 600;
+      font-size: 1.02rem;
+      line-height: 1.78;
+      font-weight: 650;
     }
 
     .tiny-mark {
       display: inline-grid;
       place-items: center;
       flex: 0 0 auto;
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       background: var(--butter-soft);
       box-shadow: inset 0 -4px rgba(184, 137, 84, 0.08);
-      font-size: 0.95rem;
+      font-size: 1rem;
     }
 
     /* =========================
@@ -471,9 +544,9 @@
 
     .love-note {
       position: relative;
-      width: min(860px, 100%);
+      width: min(800px, 100%);
       margin: 0 auto;
-      padding: clamp(30px, 6vw, 58px);
+      padding: clamp(34px, 6vw, 58px);
       border: 1px solid rgba(184, 137, 84, 0.24);
       border-radius: 36px;
       text-align: center;
@@ -495,17 +568,17 @@
       margin: 0 0 16px;
       color: var(--cocoa);
       font-family: "Playfair Display", Georgia, serif;
-      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-size: clamp(2.1rem, 4.8vw, 3.5rem);
       line-height: 1.05;
       letter-spacing: 0;
     }
 
     .love-note p {
-      width: min(670px, 100%);
+      width: min(620px, 100%);
       margin: 0 auto;
       color: #765744;
-      font-size: clamp(1.08rem, 2vw, 1.24rem);
-      line-height: 1.8;
+      font-size: clamp(1.06rem, 1.8vw, 1.2rem);
+      line-height: 1.9;
       font-weight: 700;
     }
 
@@ -540,6 +613,11 @@
       50% { transform: translateX(18px); }
     }
 
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -552,7 +630,7 @@
     /* =========================
        Responsive
     ========================== */
-    @media (max-width: 940px) {
+    @media (max-width: 980px) {
       .hero {
         min-height: auto;
         padding: 42px 0 28px;
@@ -573,7 +651,12 @@
       }
 
       .cards-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr;
+        width: min(620px, 100%);
+      }
+
+      .gift-card:last-child:nth-child(odd) {
+        width: 100%;
       }
     }
 
@@ -582,25 +665,39 @@
         width: min(100% - 24px, 1120px);
       }
 
+      .hero {
+        padding-top: 28px;
+      }
+
       .hero-copy {
         text-align: center;
       }
 
-      .hero-actions {
+      h1 {
+        font-size: clamp(3rem, 16vw, 4.6rem);
+      }
+
+      .hero-copy p,
+      .section-heading p,
+      .love-note p {
+        line-height: 1.78;
+      }
+
+      .hero-actions,
+      .sweet-divider {
         justify-content: center;
       }
 
-      .soft-note,
       .btn {
         width: 100%;
       }
 
-      .cards-grid {
-        grid-template-columns: 1fr;
-      }
-
       .gift-card {
         border-radius: 24px;
+      }
+
+      .gift-content {
+        padding: 20px 6px 8px;
       }
 
       .section {
@@ -614,18 +711,21 @@
   </style>
 </head>
 <body>
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
   <main>
     <!-- Hero principal -->
     <header class="hero">
       <div class="page-shell hero-grid">
         <section class="hero-copy">
-          <h1>Feliz cumpleaños numero 19!!!</h1>
+          <h1>Felices 19!!!</h1>
           <p>
             Preparé algunos detalles y sorpresas que espero hagan tu cumpleaños aún más bonito.
           </p>
           <div class="hero-actions">
             <a class="btn" href="#sorpresas">Ver sorpresas</a>
           </div>
+          <div class="sweet-divider" aria-hidden="true">♡</div>
         </section>
 
         <section class="hero-art" aria-label="Ilustración decorativa inspirada en Pompompurin">
@@ -645,7 +745,7 @@
         <div class="section-heading reveal">
           <h2>Espero que pases un día maravilloso</h2>
           <p>
-            Cada regalo esta pensado para ti, con cariño y dedicación. Espero que cada uno de ellos te haga sonreír y te recuerde lo especial que eres para mí.
+            Cada regalo esta pensado para ti, con cariño. Espero que cada uno de ellos te recuerde lo especial que eres para mí.
           </p>
         </div>
 
@@ -732,6 +832,103 @@
   </main>
 
   <script>
+    /* =========================
+       Confetti delicado al iniciar
+    ========================== */
+    const confettiCanvas = document.getElementById("confetti-canvas");
+    const confettiContext = confettiCanvas.getContext("2d");
+    const confettiColors = ["#ffe49a", "#ffd4bd", "#fffdf7", "#cdebd7", "#b88954", "#f7a8a8"];
+    const confettiPieces = [];
+    const confettiDuration = 4300;
+    let confettiStart = 0;
+    let confettiAnimation;
+
+    function resizeConfettiCanvas() {
+      const pixelRatio = window.devicePixelRatio || 1;
+      confettiCanvas.width = window.innerWidth * pixelRatio;
+      confettiCanvas.height = window.innerHeight * pixelRatio;
+      confettiCanvas.style.width = `${window.innerWidth}px`;
+      confettiCanvas.style.height = `${window.innerHeight}px`;
+      confettiContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    }
+
+    function createConfettiPiece() {
+      return {
+        x: Math.random() * window.innerWidth,
+        y: -20 - Math.random() * window.innerHeight * 0.35,
+        size: 6 + Math.random() * 8,
+        speed: 1.3 + Math.random() * 2.6,
+        drift: -0.9 + Math.random() * 1.8,
+        rotation: Math.random() * Math.PI * 2,
+        spin: -0.08 + Math.random() * 0.16,
+        color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+        shape: Math.random() > 0.36 ? "rect" : "heart",
+        opacity: 0.72 + Math.random() * 0.28
+      };
+    }
+
+    function drawHeart(context, size) {
+      const scale = size / 18;
+      context.beginPath();
+      context.moveTo(0, 5 * scale);
+      context.bezierCurveTo(-10 * scale, -4 * scale, -16 * scale, 7 * scale, 0, 16 * scale);
+      context.bezierCurveTo(16 * scale, 7 * scale, 10 * scale, -4 * scale, 0, 5 * scale);
+      context.fill();
+    }
+
+    function drawConfettiFrame(now) {
+      const elapsed = now - confettiStart;
+      const fade = Math.max(0, 1 - (elapsed - confettiDuration + 900) / 900);
+
+      confettiContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      confettiPieces.forEach((piece) => {
+        piece.x += piece.drift + Math.sin((now / 450) + piece.y * 0.01) * 0.35;
+        piece.y += piece.speed;
+        piece.rotation += piece.spin;
+
+        confettiContext.save();
+        confettiContext.translate(piece.x, piece.y);
+        confettiContext.rotate(piece.rotation);
+        confettiContext.globalAlpha = piece.opacity * fade;
+        confettiContext.fillStyle = piece.color;
+
+        if (piece.shape === "heart") {
+          drawHeart(confettiContext, piece.size);
+        } else {
+          confettiContext.fillRect(-piece.size / 2, -piece.size / 2, piece.size, piece.size * 0.68);
+        }
+
+        confettiContext.restore();
+      });
+
+      if (elapsed < confettiDuration) {
+        confettiAnimation = requestAnimationFrame(drawConfettiFrame);
+      } else {
+        confettiContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        confettiCanvas.remove();
+      }
+    }
+
+    function startConfetti() {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        confettiCanvas.remove();
+        return;
+      }
+
+      resizeConfettiCanvas();
+      confettiStart = performance.now();
+      const pieceCount = Math.min(135, Math.max(75, Math.floor(window.innerWidth / 9)));
+      for (let index = 0; index < pieceCount; index += 1) {
+        confettiPieces.push(createConfettiPiece());
+      }
+
+      confettiAnimation = requestAnimationFrame(drawConfettiFrame);
+    }
+
+    window.addEventListener("resize", resizeConfettiCanvas);
+    window.addEventListener("load", startConfetti);
+
     /* =========================
        Aparición suave al hacer scroll
     ========================== */
