@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tu día especial incluye...</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    /* =========================
+       Base visual y paleta
+    ========================== */
+    :root {
+      --cream: #fff8e9;
+      --warm-white: #fffdf7;
+      --butter: #ffe49a;
+      --butter-soft: #fff0bd;
+      --vanilla: #fff6dc;
+      --caramel: #b88954;
+      --coffee: #765039;
+      --cocoa: #5b3b2f;
+      --peach: #ffd4bd;
+      --rose: #f7a8a8;
+      --mint: #cdebd7;
+      --shadow: 0 22px 55px rgba(128, 82, 36, 0.14);
+      --soft-shadow: 0 12px 30px rgba(128, 82, 36, 0.11);
+      --radius-lg: 28px;
+      --radius-md: 20px;
+      --radius-sm: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--cocoa);
+      font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(255, 228, 154, 0.7) 0 110px, transparent 112px),
+        radial-gradient(circle at 86% 14%, rgba(255, 212, 189, 0.52) 0 105px, transparent 108px),
+        linear-gradient(135deg, #fffaf0 0%, #fff4d5 48%, #fffdf7 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.52;
+      background-image:
+        radial-gradient(circle, rgba(184, 137, 84, 0.18) 1.4px, transparent 1.8px),
+        radial-gradient(circle, rgba(247, 168, 168, 0.2) 1.2px, transparent 1.7px);
+      background-size: 34px 34px, 58px 58px;
+      background-position: 0 0, 14px 18px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent 88%);
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-shell {
+      width: min(1120px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 14px;
+      border: 1px solid rgba(184, 137, 84, 0.22);
+      border-radius: 999px;
+      color: var(--coffee);
+      background: rgba(255, 253, 247, 0.72);
+      box-shadow: 0 8px 20px rgba(128, 82, 36, 0.08);
+      font-size: 0.92rem;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    /* =========================
+       Huellitas decorativas
+    ========================== */
+    .paw {
+      position: absolute;
+      width: 46px;
+      height: 42px;
+      opacity: 0.25;
+      transform: rotate(-18deg);
+    }
+
+    .paw span {
+      position: absolute;
+      display: block;
+      border-radius: 50%;
+      background: var(--caramel);
+    }
+
+    .paw span:nth-child(1) {
+      width: 16px;
+      height: 18px;
+      left: 15px;
+      bottom: 2px;
+    }
+
+    .paw span:nth-child(2),
+    .paw span:nth-child(3),
+    .paw span:nth-child(4) {
+      width: 10px;
+      height: 12px;
+      top: 5px;
+    }
+
+    .paw span:nth-child(2) { left: 5px; }
+    .paw span:nth-child(3) { left: 18px; top: 0; }
+    .paw span:nth-child(4) { right: 5px; }
+
+    /* =========================
+       Hero principal
+    ========================== */
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: grid;
+      align-items: center;
+      padding: 52px 0 34px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(310px, 0.95fr);
+      gap: 42px;
+      align-items: center;
+    }
+
+    .hero-copy {
+      animation: pageEnter 850ms ease both;
+    }
+
+    h1 {
+      margin: 20px 0 16px;
+      color: var(--cocoa);
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(3rem, 8vw, 6.8rem);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+
+    .hero-copy p {
+      width: min(620px, 100%);
+      margin: 0;
+      color: #765744;
+      font-size: clamp(1.06rem, 2vw, 1.25rem);
+      line-height: 1.8;
+      font-weight: 600;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 13px 20px;
+      border: 0;
+      border-radius: 999px;
+      color: var(--warm-white);
+      background: linear-gradient(135deg, #9a6a43, #c9965e);
+      box-shadow: 0 14px 28px rgba(128, 82, 36, 0.2);
+      font: inherit;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 32px rgba(128, 82, 36, 0.25);
+    }
+
+    .soft-note {
+      display: inline-flex;
+      align-items: center;
+      min-height: 48px;
+      padding: 12px 18px;
+      border: 1px solid rgba(184, 137, 84, 0.24);
+      border-radius: 999px;
+      color: var(--coffee);
+      background: rgba(255, 253, 247, 0.62);
+      font-weight: 800;
+      box-shadow: 0 12px 25px rgba(128, 82, 36, 0.08);
+    }
+
+    .hero-art {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 440px;
+      animation: pageEnter 900ms ease both 100ms;
+    }
+
+    .cloud {
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255, 253, 247, 0.78);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .cloud.one {
+      width: 180px;
+      height: 54px;
+      top: 36px;
+      left: 10px;
+      animation: drift 8s ease-in-out infinite;
+    }
+
+    .cloud.two {
+      width: 132px;
+      height: 44px;
+      right: 0;
+      bottom: 76px;
+      animation: drift 7s ease-in-out infinite reverse;
+    }
+
+    .pompom-image-card {
+      position: relative;
+      width: min(420px, 92vw);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(184, 137, 84, 0.22);
+      border-radius: 42px;
+      background: rgba(255, 253, 247, 0.78);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transform: rotate(1.5deg);
+    }
+
+    .pompom-image-card::before,
+    .pompom-image-card::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255, 212, 189, 0.72);
+    }
+
+    .pompom-image-card::before {
+      width: 118px;
+      height: 118px;
+      right: -30px;
+      top: 32px;
+    }
+
+    .pompom-image-card::after {
+      width: 160px;
+      height: 160px;
+      left: -48px;
+      bottom: -50px;
+      background: rgba(205, 235, 215, 0.7);
+    }
+
+    .pompom-image {
+      position: relative;
+      z-index: 1;
+      width: 92%;
+      height: 92%;
+      object-fit: cover;
+      border-radius: 30px;
+      filter: drop-shadow(0 20px 24px rgba(128, 82, 36, 0.16));
+      animation: gentleBounce 4.8s ease-in-out infinite;
+    }
+
+    .hero-art .paw {
+      right: 32px;
+      top: 86px;
+    }
+
+    /* =========================
+       Sección de sorpresas
+    ========================== */
+    .section {
+      padding: 76px 0;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 700ms ease, transform 700ms ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-heading {
+      display: grid;
+      justify-items: center;
+      gap: 14px;
+      margin-bottom: 34px;
+      text-align: center;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      color: var(--cocoa);
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(2.2rem, 5vw, 4.1rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .section-heading p {
+      width: min(710px, 100%);
+      margin: 0;
+      color: #765744;
+      font-size: 1.06rem;
+      line-height: 1.8;
+      font-weight: 600;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .gift-card {
+      position: relative;
+      min-height: 100%;
+      padding: 14px;
+      border: 1px solid rgba(184, 137, 84, 0.18);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 253, 247, 0.74);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+      transform: translateY(24px);
+      opacity: 0;
+      transition:
+        opacity 700ms ease,
+        transform 700ms ease,
+        box-shadow 240ms ease,
+        border-color 240ms ease;
+    }
+
+    .gift-card.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .gift-card:hover {
+      border-color: rgba(184, 137, 84, 0.34);
+      box-shadow: 0 24px 46px rgba(128, 82, 36, 0.18);
+      transform: translateY(-6px);
+    }
+
+    .gift-card::before {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -54px;
+      top: -54px;
+      border-radius: 50%;
+      background: rgba(255, 228, 154, 0.52);
+    }
+
+    .gift-image-wrap {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      border-radius: 22px;
+      background: var(--vanilla);
+    }
+
+    .gift-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 500ms ease, filter 500ms ease;
+    }
+
+    .gift-card:hover img {
+      transform: scale(1.045);
+      filter: saturate(1.04) brightness(1.02);
+    }
+
+    .gift-number {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 2px solid rgba(255, 253, 247, 0.9);
+      border-radius: 50%;
+      color: var(--warm-white);
+      background: rgba(118, 80, 57, 0.84);
+      font-weight: 900;
+      box-shadow: 0 10px 22px rgba(91, 59, 47, 0.2);
+    }
+
+    .gift-content {
+      position: relative;
+      z-index: 1;
+      padding: 20px 8px 10px;
+    }
+
+    .gift-content h3 {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 10px;
+      color: var(--cocoa);
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 1.45rem;
+      line-height: 1.16;
+      letter-spacing: 0;
+    }
+
+    .gift-content p {
+      margin: 0;
+      color: #765744;
+      font-size: 1rem;
+      line-height: 1.65;
+      font-weight: 600;
+    }
+
+    .tiny-mark {
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--butter-soft);
+      box-shadow: inset 0 -4px rgba(184, 137, 84, 0.08);
+      font-size: 0.95rem;
+    }
+
+    /* =========================
+       Mensaje final
+    ========================== */
+    .closing {
+      padding: 28px 0 86px;
+    }
+
+    .love-note {
+      position: relative;
+      width: min(860px, 100%);
+      margin: 0 auto;
+      padding: clamp(30px, 6vw, 58px);
+      border: 1px solid rgba(184, 137, 84, 0.24);
+      border-radius: 36px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255, 228, 154, 0.6) 0 70px, transparent 72px),
+        radial-gradient(circle at 92% 72%, rgba(255, 212, 189, 0.55) 0 80px, transparent 82px),
+        rgba(255, 253, 247, 0.82);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .love-note .paw {
+      left: 32px;
+      top: 32px;
+      transform: rotate(15deg);
+    }
+
+    .love-note h2 {
+      margin: 0 0 16px;
+      color: var(--cocoa);
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .love-note p {
+      width: min(670px, 100%);
+      margin: 0 auto;
+      color: #765744;
+      font-size: clamp(1.08rem, 2vw, 1.24rem);
+      line-height: 1.8;
+      font-weight: 700;
+    }
+
+    .signature {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 26px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      color: var(--coffee);
+      background: rgba(255, 244, 213, 0.82);
+      font-weight: 900;
+    }
+
+    /* =========================
+       Animaciones
+    ========================== */
+    @keyframes pageEnter {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(18px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* =========================
+       Responsive
+    ========================== */
+    @media (max-width: 940px) {
+      .hero {
+        min-height: auto;
+        padding: 42px 0 28px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 26px;
+      }
+
+      .hero-art {
+        min-height: 370px;
+        order: -1;
+      }
+
+      .pompom-image-card {
+        width: min(350px, 88vw);
+      }
+
+      .cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 650px) {
+      .page-shell {
+        width: min(100% - 24px, 1120px);
+      }
+
+      .hero-copy {
+        text-align: center;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .soft-note,
+      .btn {
+        width: 100%;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gift-card {
+        border-radius: 24px;
+      }
+
+      .section {
+        padding: 58px 0;
+      }
+
+      .closing {
+        padding-bottom: 58px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <!-- Hero principal -->
+    <header class="hero">
+      <div class="page-shell hero-grid">
+        <section class="hero-copy">
+          <h1>Feliz cumpleaños numero 19!!!</h1>
+          <p>
+            Preparé algunos detalles y sorpresas que espero hagan tu cumpleaños aún más bonito.
+          </p>
+          <div class="hero-actions">
+            <a class="btn" href="#sorpresas">Ver sorpresas</a>
+          </div>
+        </section>
+
+        <section class="hero-art" aria-label="Ilustración decorativa inspirada en Pompompurin">
+          <div class="cloud one" aria-hidden="true"></div>
+          <div class="cloud two" aria-hidden="true"></div>
+          <div class="pompom-image-card">
+            <div class="paw" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+            <img class="pompom-image" src="images/pompompurin-birthday.png" alt="Pompompurin con pastel de cumpleaños" />
+          </div>
+        </section>
+      </div>
+    </header>
+
+    <!-- Itinerario de sorpresas -->
+    <section class="section" id="sorpresas">
+      <div class="page-shell">
+        <div class="section-heading reveal">
+          <h2>Espero que pases un día maravilloso</h2>
+          <p>
+            Cada regalo esta pensado para ti, con cariño y dedicación. Espero que cada uno de ellos te haga sonreír y te recuerde lo especial que eres para mí.
+          </p>
+        </div>
+
+        <div class="cards-grid">
+          <!-- Cambia el src de cada imagen cuando tengas tus fotos finales -->
+          <article class="gift-card reveal" style="--delay: 0ms;">
+            <div class="gift-image-wrap">
+              <img src="images/flores.jpg" alt="Ramo de flores" data-fallback="Flores" data-tone="#ffd4bd" />
+              <span class="gift-number">01</span>
+            </div>
+            <div class="gift-content">
+              <h3><span class="tiny-mark">💐</span>Ramo de flores</h3>
+              <p>Elegí Lilies ya que desde hace tiempo sabia que te encantaban, siento que representan mucho lo dulce que eres, que a medida que te desenvuelves tal y como ellas
+              le regalas al mundo tu belleza y tu aroma. Espero que este ramo te haga sonreír y te recuerde lo especial que eres para mí.
+              </p>
+            </div>
+          </article>
+
+
+          <article class="gift-card reveal" style="--delay: 180ms;">
+            <div class="gift-image-wrap">
+              <img src="images/camara.jpg" alt="Cámara para guardar recuerdos" data-fallback="Cámara" data-tone="#cdebd7" />
+              <span class="gift-number">02</span>
+            </div>
+            <div class="gift-content">
+              <h3><span class="tiny-mark">📸</span>Cámara</h3>
+              <p>En una de las platicas que te hice para descubrir un regalo que te gustara, mencionaste que te llamaba la atención tener una cámara. Después de una ardua búsqueda encontré una y
+              al ver como te veías tomando fotos con ella me di cuenta que era la indicada para ti, espero que te guste y que captures muchos momentos bonitos con ella.
+              </p>
+            </div>
+          </article>
+
+          <article class="gift-card reveal" style="--delay: 270ms;">
+            <div class="gift-image-wrap">
+              <img src="images/playa.jpg" alt="Salida romántica a la playa" data-fallback="Playa" data-tone="#bfe5f4" />
+              <span class="gift-number">03</span>
+            </div>
+            <div class="gift-content">
+              <h3><span class="tiny-mark">💼</span>Bolso</h3>
+              <p>Un dia que salí a comprar unas cosas vi un bolso a lo lejos, al acercarme y verlo con mas detenimiento me pareció que iba mucho con tu estilo, solo que por los materiales y la edad ya estaba un poco desgastado
+              entonces me propuse arreglártelo y dejarlo como nuevo, espero que te guste muchísimo.
+              </p>
+            </div>
+          </article>
+
+          <article class="gift-card reveal" style="--delay: 360ms;">
+            <div class="gift-image-wrap">
+              <img src="images/pompompurin.jpg" alt="Sorpresa inspirada en Pompompurin" data-fallback="Pompompurin" data-tone="#fff0bd" />
+              <span class="gift-number">04</span>
+            </div>
+            <div class="gift-content">
+              <h3><span class="tiny-mark">🐶</span>Peluchote de Pompompurin</h3>
+              <p>Para aquellas veces que necesites un abrazo y yo no esté, este peluche estará allí para ti, lleno de amor y ternura (demasiado amor y ternura).</p>
+            </div>
+          </article>
+
+          <article class="gift-card reveal" style="--delay: 450ms;">
+            <div class="gift-image-wrap">
+              <img src="images/carta.jpg" alt="Carta hecha a mano" data-fallback="Carta" data-tone="#f7a8a8" />
+              <span class="gift-number">05</span>
+            </div>
+            <div class="gift-content">
+              <h3><span class="tiny-mark">🐕</span>Figuritas de Pompompurin</h3>
+              <p>También, estos cuando los vi recordé lo mucho que te gustaba el perrito flan entonces decidí regalártelos</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cierre emocional -->
+    <section class="closing">
+      <div class="page-shell">
+        <div class="love-note reveal">
+          <div class="paw" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <h2>Feliz cumpleaños, mi amor</h2>
+          <p>
+            Todo esto fue preparado con mucho amor, porque tú eres una persona muy especial para mí. Gracias por existir, por tu ternura y por hacer mis días mucho más bonitos.
+          </p>
+          <div class="signature">♡ Con todo mi cariño</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    /* =========================
+       Aparición suave al hacer scroll
+    ========================== */
+    const revealElements = document.querySelectorAll(".reveal");
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.16
+    });
+
+    revealElements.forEach((element) => {
+      element.style.transitionDelay = element.style.getPropertyValue("--delay") || "0ms";
+      revealObserver.observe(element);
+    });
+
+    /* =========================
+       Fallback visual si aún no existen las fotos
+       Mantiene src como images/... para que sea fácil reemplazarlas.
+    ========================== */
+    const fallbackImages = document.querySelectorAll(".gift-image-wrap img");
+
+    fallbackImages.forEach((image) => {
+      image.addEventListener("error", () => {
+        const label = image.dataset.fallback || "Sorpresa";
+        const tone = image.dataset.tone || "#ffe49a";
+        const svg = `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 675">
+            <defs>
+              <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#fffdf7"/>
+                <stop offset="0.55" stop-color="${tone}"/>
+                <stop offset="1" stop-color="#fff6dc"/>
+              </linearGradient>
+              <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#805224" flood-opacity=".16"/>
+              </filter>
+            </defs>
+            <rect width="900" height="675" rx="54" fill="url(#bg)"/>
+            <circle cx="138" cy="120" r="78" fill="#fffdf7" opacity=".55"/>
+            <circle cx="764" cy="128" r="100" fill="#ffd4bd" opacity=".42"/>
+            <circle cx="736" cy="548" r="120" fill="#cdebd7" opacity=".38"/>
+            <g filter="url(#soft)">
+              <rect x="260" y="176" width="380" height="300" rx="54" fill="#fffdf7" opacity=".88"/>
+              <path d="M374 308c0-48 34-82 76-82s76 34 76 82c0 70-76 112-76 112s-76-42-76-112z" fill="#ffd4bd"/>
+              <circle cx="384" cy="222" r="26" fill="#ffe49a"/>
+              <circle cx="516" cy="222" r="26" fill="#ffe49a"/>
+              <circle cx="410" cy="350" r="8" fill="#765039"/>
+              <circle cx="490" cy="350" r="8" fill="#765039"/>
+              <path d="M432 382c18 16 38 16 56 0" fill="none" stroke="#765039" stroke-width="8" stroke-linecap="round"/>
+            </g>
+            <text x="450" y="555" text-anchor="middle" font-family="Nunito, Arial, sans-serif" font-size="48" font-weight="800" fill="#5b3b2f">${label}</text>
+            <text x="450" y="604" text-anchor="middle" font-family="Nunito, Arial, sans-serif" font-size="24" font-weight="700" fill="#765039">Reemplaza esta imagen cuando quieras</text>
+          </svg>
+        `;
+        image.src = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+      }, { once: true });
+    });
+  </script>
+</body>
+</html>
